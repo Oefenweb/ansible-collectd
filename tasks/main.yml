@@ -13,8 +13,8 @@
         state: directory
         recurse: true
       when:
-        - ansible_distribution == 'Ubuntu'
-        - ansible_distribution_major_version is version('18', '>=')
+        - ansible_facts['distribution'] == 'Ubuntu'
+        - ansible_facts['distribution_major_version'] is version('18', '>=')
 
     - name: install dependencies
       ansible.builtin.apt:
@@ -41,10 +41,10 @@
     dest: "{{ collectd_etc_default_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   when:
-    - ansible_distribution == 'Ubuntu'
-    - ansible_distribution_major_version is version('20', '==')
+    - ansible_facts['distribution'] == 'Ubuntu'
+    - ansible_facts['distribution_major_version'] is version('20', '==')
   notify: restart collectd
   tags:
     - configuration
@@ -55,7 +55,7 @@
   ansible.builtin.template:
     src: "etc/collectd/collectd.conf.d/{{ item }}.conf.j2"
     dest: "/etc/collectd/collectd.conf.d/{{ item }}.conf"
-    mode: 0644
+    mode: '0644'
   with_items: "{{ collectd_plugins_present }}"
   notify: restart collectd
   tags:
