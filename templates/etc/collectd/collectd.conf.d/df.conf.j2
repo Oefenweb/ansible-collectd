@@ -19,7 +19,7 @@ LoadPlugin df
   FSType mqueue
   IgnoreSelected true
   ReportByDevice false
-{% if ansible_distribution == 'Ubuntu' and ansible_distribution_major_version is version('18', '<') %}
+{% if ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_major_version'] is version('18', '<') %}
   ReportReserved true
 {% endif %}
   ValuesAbsolute true
